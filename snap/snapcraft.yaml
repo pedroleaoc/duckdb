@@ -1,0 +1,46 @@
+name: duckdb
+base: core24
+version: git
+summary: DuckDB is an analytical in-process SQL database management system
+description: |
+  DuckDB is a high-performance analytical database system. It is designed to be
+  fast, reliable, portable, and easy to use. DuckDB provides a rich SQL dialect,
+  with support far beyond basic SQL. DuckDB supports arbitrary and nested
+  correlated subqueries, window functions, collations, complex types (arrays,
+  structs, maps), and more.
+
+  **This is a prototype snap (dev branch).** It is intended for testing and
+  experimentation only. Do not use in production.
+
+grade: devel
+confinement: strict
+
+platforms:
+  amd64:
+    build-on: [amd64]
+  arm64:
+    build-on: [arm64]
+
+parts:
+  duckdb:
+    plugin: cmake
+    source: .
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_SHELL=1
+      - -DBUILD_UNITTESTS=OFF
+      - -DENABLE_EXTENSION_AUTOLOADING=1
+      - -DENABLE_EXTENSION_AUTOINSTALL=1
+    build-packages:
+      - g++
+      - libssl-dev
+      - python3
+
+apps:
+  duckdb:
+    command: usr/bin/duckdb
+    plugs:
+      - home
+      - network
+      - removable-media
