@@ -53,10 +53,11 @@ duckdb my_database.db
 ## Publishing to the Snap Store (Edge Channel)
 
 Since `grade: devel` is set, this snap can only be published to the `edge`
-channel:
+channel. You must first register the snap name on the Snap Store:
 
 ```bash
 snapcraft login
+snapcraft register duckdb
 snapcraft upload duckdb_*.snap --release=latest/edge
 ```
 
